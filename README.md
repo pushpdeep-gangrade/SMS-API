@@ -1,12 +1,18 @@
 # SMS-API
 
 how to run.
-1. attach webhook by executing below command
+1. install twilio cli 
+
+npm install twilio-cli -g
+
+2. twilio login : provide the SID and auth_token for login, setup a any name for shorthand.  
+
+3. attach webhook by executing below command 
 
 twilio phone-numbers:update "+12013792669" --sms-url="http://localhost:1337/sms"
 
-2. node server.js
-3. start sending messages to +12013792669
+4. run "node server.js" in separate terminal
+5. start sending messages to +12013792669
 
 # Table of Contents
 - [Authors](#authors)
