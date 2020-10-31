@@ -5,7 +5,7 @@ how to run.
 
 npm install twilio-cli -g
 
-2. twilio login : provide the SID and auth_token for login, setup a any name for shorthand.  
+2. twilio login : provide the SID and auth_token for login, setup anyname for shorthand.  
 
 3. attach webhook by executing below command 
 
