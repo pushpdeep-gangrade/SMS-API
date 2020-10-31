@@ -1,14 +1,18 @@
 // JavaScript source code
 const http = require('http');
 const express = require('express');
+const bodyParser = require('body-parser');
 const MessagingResponse = require('twilio').twiml.MessagingResponse;
 
 const app = express();
+app.use(bodyParser.urlencoded({ extended: false }));
 
 app.post('/sms', (req, res) => {
+
+    console.log(req.body);
     const twiml = new MessagingResponse();
 
-    twiml.message('The Robots are coming! Head for the hills!');
+    twiml.message('Initial message');
 
     res.writeHead(200, { 'Content-Type': 'text/xml' });
     res.end(twiml.toString());
