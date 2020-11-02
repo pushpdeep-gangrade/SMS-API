@@ -261,7 +261,7 @@ app.post('/sms', (req, res) => {
     }
 });
 
-const port = 3000;//1337;
+const port = 5000;//1337;
 http.createServer(app).listen(port, () => {
     console.log('Express server listening on port ' + port);
 });
