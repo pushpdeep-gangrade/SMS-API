@@ -26,7 +26,7 @@ class App extends Component {
 
     async componentDidMount(){
       let token = this.props.cookies.get('authorizationToken')
-      //await this.checkValidToken(token)
+      await this.checkValidToken(token)
     }
 
   setUser(user, token) {
@@ -70,10 +70,8 @@ class App extends Component {
     return (
         <Layout user={this.state.user} setUser={this.setUser} cookies={this.props.cookies}>
            {token !== undefined ? <Redirect to="/home"/> : <Route path='/login' render={(props) => <LoginContainer setUser={this.setUser}/>} />}
-           {/* <Route path='/login' render={(props) => <LoginContainer setUser={this.setUser}/>} /> */}
            <Route path='/home' render={(props) => <Home user={this.state.user}/>}/>
            {token === undefined ? <Redirect to="/login"/> : <Route path='/participants' render={(props) => <ParticipantsContainer user={this.state.user} cookies={this.props.cookies} checkValidToken={this.checkValidToken}/>} />}
-           {/* <Route path='/participants' render={(props) => <ParticipantsContainer user={this.state.user} cookies={this.props.cookies} checkValidToken={this.checkValidToken}/>} /> */}
          </Layout>
     );
   }

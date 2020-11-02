@@ -406,8 +406,9 @@ app.delete('/v1/user', authMiddleware, function (req, res) {
 
 });
 
-
-
+app.get('/v1/token/check', authMiddleware, function (req, res) {
+    res.status(OK).send("Token is valid");
+})
 
 //const port = 1337;//1337;
 const port = 5000;//1337;

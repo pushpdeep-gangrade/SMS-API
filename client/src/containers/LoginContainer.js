@@ -77,10 +77,10 @@ export class LoginContainer extends Component {
         event.preventDefault();
 
         //Will eventually pull user from the database
-        //this.checkUser();
+        this.checkUser();
         
-        this.setState({ successfulLogin: true });
-        this.props.setUser(this.state.user, "null")
+       /*  this.setState({ successfulLogin: true });
+        this.props.setUser(this.state.user, "null") */
     }
 
   

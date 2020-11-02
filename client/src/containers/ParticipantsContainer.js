@@ -23,68 +23,92 @@ export class ParticipantsContainer extends Component {
     }
 
     async componentDidMount(){
-        //await this.props.checkValidToken(this.state.authToken);
+        await this.props.checkValidToken(this.state.authToken);
 
         this.populateParticipantsTable();
     }
 
     async populateParticipantsTable(){
-        let participantsList = [
-            {
-                phone: "1234567890",
-                date: "October 30th, 2020",
-                symptoms: [
-                    {
-                        symptom: "Headache",
-                        rank: 2
-                    },
-                    {
-                        symptom: "Sadness",
-                        rank: 3
-                    },
-                    {
-                        symptom: "Fatigue",
-                        rank: 1
-                    }
-                ]
+        let participantList = [];
+
+        let response = await fetch('/v1/users', {
+            method: 'GET',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+                'AuthorizationKey': this.state.authToken
             },
-            {
-                phone: "4567890123",
-                date: "October 31th, 2020",
-                symptoms: [
-                    {
-                        symptom: "Dizziness",
-                        rank: 2
-                    },
-                    {
-                        symptom: "Headache",
-                        rank: 3
-                    },
-                    {
-                        symptom: "Fatigue",
-                        rank: 2
-                    }
-                ]
+        });
+
+        let data = await response.json()
+
+        for(let i = 0; i < data.length; i++){
+            if(data[i].user.status !== "Deleted"){
+                participantList.push(data[i]);
             }
-        ];
+        }
+
+        console.log(participantList);
 
         this.setState({
-            participantsList: participantsList
+            participantsList: participantList
         })
 
     }
 
-    handleDeleteClick(event, position) {
+    async handleDeleteClick(event, position) {
         event.preventDefault();
 
-        let participantsList = this.state.participantsList;
+        //Test Delete
+        /*
+            {
+                "_id": "+1234567890",
+                "enrolldate": "October 31st, 2020",
+                "user": {
+                    "status": "Enrolled"
+                    "disease": [{
+                        "name": "Headache",
+                        "severity": {
+                            "$numberInt": "2"
+                        }
+                    }, {
+                        "name": "Sadness",
+                        "severity": {
+                            "$numberInt": "3"
+                        }
+                    }, {
+                        "name": "Fatigue",
+                        "severity": {
+                            "$numberInt": "1"
+                        }
+                    }]
+                }
+            }
+        */
 
-        participantsList.splice(position, 1)
+        let deleteUser = this.state.participantsList[position];
 
-        this.setState({
-            participantsList: participantsList
-        })
+        let body = {
+            subscriber_id: deleteUser._id
+        }
 
+        let response = await fetch('/v1/user', {
+            method: 'DELETE',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+                'AuthorizationKey': this.state.authToken
+            },
+            body: JSON.stringify(body)
+        });
+
+       this.populateParticipantsTable();
+
+       if(this.state.currentParticipant._id === deleteUser._id){
+           this.setState({
+               currentParticipant: null
+           })
+       }
     }
 
     handleSymptomsClick(event, position){

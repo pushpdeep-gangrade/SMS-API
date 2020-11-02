@@ -25,19 +25,37 @@ export class Participants extends Component {
 
             items.push(<tr id={value.name}>
                     <td headers="rowNum">{index+1}</td>
-                    <td headers="phone">{value.phone}</td>
-                    <td headers="date">{value.date}</td>
+                    <td headers="phone">{value._id}</td>
+                    <td headers="date">{value.enrolldate}</td>
                     <td headers="dropDown">{dropDownOptions}</td>
                 </tr>
              )
         }
-        //alert(this.props.currentPartipant)
+
         if(this.props.currentParticipant !== null && typeof this.props.currentParticipant !== "undefined"){
-            for (const [index, value] of this.props.currentParticipant.symptoms.entries()) {
-                items2.push(<tr id={this.props.participantsList.phone}>
+            for (const [index, value] of this.props.currentParticipant.user.disease.entries()) {
+                let severityText = "";
+
+                if(value.severity === 0){
+                    severityText = value.severity + " (" + "None" + ")"
+                }
+                else if(value.severity === 1){
+                    severityText = value.severity + " (" + "Mild" + ")"
+                }
+                else if(value.severity === 2){
+                    severityText = value.severity + " (" + "Mild" + ")"
+                }
+                else if(value.severity === 3){
+                    severityText = value.severity + " (" + "Moderate" + ")"
+                }
+                else{
+                    severityText = value.severity + " (" + "Severe" + ")"
+                }
+
+                items2.push(<tr id={this.props.currentParticipant._id}>
                         <td headers="rowNum">{index+1}</td>
-                        <td headers="symptom">{value.symptom}</td>
-                        <td headers="rank">{value.rank}</td>
+                        <td headers="symptom">{value.name}</td>
+                        <td headers="rank">{severityText}</td>
                     </tr>
                  )
             }
@@ -49,7 +67,7 @@ export class Participants extends Component {
             symptomsTable = (
                 <div>
                     <br/>
-                    <h2>{this.props.currentParticipant.phone} Symptoms</h2><br/>
+                    <h2>{this.props.currentParticipant._id} Symptoms</h2><br/>
                     <Table>
                         <thead>
                             <tr>
