@@ -290,7 +290,6 @@ app.post('/sms', (req, res) => {
     }
 });
 
-
 // admin login with password encyption check
 app.post('/v1/admin/login', function (req, res) {
     if (typeof req.body.email === "undefined" || typeof req.body.password === "undefined") {
@@ -410,7 +409,8 @@ app.delete('/v1/user', authMiddleware, function (req, res) {
 
 
 
-const port = 1337;//1337;
+//const port = 1337;//1337;
+const port = 5000;//1337;
 http.createServer(app).listen(port, () => {
     console.log('Express server listening on port ' + port);
 });
