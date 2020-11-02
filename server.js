@@ -4,10 +4,14 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const MessagingResponse = require('twilio').twiml.MessagingResponse;
 const MongoClient = require('mongodb').MongoClient;
+const bcrypt = require('bcrypt');
 const url = "mongodb+srv://Pushp:pushp@a-mad-cluster.1u5jl.mongodb.net/API?retryWrites=true&w=majority";
-const severities = ['none','mild','mild','moderate','severe']
+const severities = ['none', 'mild', 'mild', 'moderate', 'severe']
+const jwt = require('jsonwebtoken');
 
+const salt = bcrypt.genSaltSync(10);
 const app = express();
+app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: false }));
 
 //Status encoded
@@ -18,7 +22,32 @@ const CONFLICT = 403;
 const NOT_FOUND = 404;
 const INTERNAL_SERVER_ERROR = 500;
 
+var authMiddleware = function (req, res, next) {
+    try {
+        if (!req.headers.authorizationkey) {
+            res.status(UNAUTHORIZED).send("UNAUTHORIZED");
+        } else {
+            var decode = jwt.decode(req.headers.authorizationkey);
+            jwt.verify(req.headers.authorizationkey, 'secret', function (err, decoded) {
+                if (err) {
+                    console.log(err);
+                    res.status(BAD_REQUEST).send(err.message);
+                } else {
+                    if (decoded.u_id == decode.u_id) {
+                        req.encode = decoded.u_id;
+                        next();
+                    } else
+                        console.log("fail");
+                }
+            });
+        }
+    } catch (err) {
+        res.send(err);
+    }
+}
+
 app.post('/sms', (req, res) => {
+    console.log(req.body);
     const twiml = new MessagingResponse();
     //console.log(req.body);
 
@@ -38,7 +67,7 @@ app.post('/sms', (req, res) => {
                 if (result != null) {
                     //User with this number is found
                     //So determine state and proper actions
-                    twiml.message('You have already, you may not enroll again.');
+                    twiml.message('You have already enrolled, you may not enroll again.');
 
                     res.writeHead(200, { 'Content-Type': 'text/xml' });
                     res.end(twiml.toString());
@@ -261,7 +290,127 @@ app.post('/sms', (req, res) => {
     }
 });
 
-const port = 3000;//1337;
+
+// admin login with password encyption check
+app.post('/v1/admin/login', function (req, res) {
+    if (typeof req.body.email === "undefined" || typeof req.body.password === "undefined") {
+        res.status(BAD_REQUEST).send("Bad request Check request Body");
+    } else {
+        client = new MongoClient(url, {
+            useNewUrlParser: true,
+            useUnifiedTopology: true
+        });
+        client.connect().then(() => {
+            var myObj = {
+                emailId: req.body.email,
+            };
+            client.db('Twilio').collection('Admin').findOne(myObj, function (err, result) {
+                if (err)
+                    res.status(INTERNAL_SERVER_ERROR).send(err);
+                else if (result == null)
+                    res.status(OK).send("No such user found");
+                else if (result != null && bcrypt.compareSync(req.body.password, result.password)) {
+                    var token = jwt.sign({
+                        u_id: result._id
+                    }, 'secret', {
+                        expiresIn: 60 * 60
+                    });
+                    res.header("AuthorizationKey", token).status(OK).send("Login Successful");
+                }
+                else {
+                    res.status(OK).send("Invalid Credentials");
+                }
+                return client.close();
+            })
+        });
+    }
+});
+
+// admin signup encyption check
+app.post('/v1/admin/signup', function (req, res) {
+
+    if (typeof req.body.email === "undefined" || typeof req.body.password === "undefined") {
+        res.status(BAD_REQUEST).send("Bad request Check request Body");
+    } else {
+        client = new MongoClient(url, {
+            useNewUrlParser: true,
+            useUnifiedTopology: true
+        });
+        const hash = bcrypt.hashSync(req.body.password, salt);
+        client.connect().then(() => {
+            var myObj = {
+                emailId: req.body.email,
+                password: hash
+            };
+            client.db('Twilio').collection('Admin').insertOne(myObj, function (err, result) {
+                if (err)
+                    res.status(INTERNAL_SERVER_ERROR).send(err);
+                else if (result.insertedCount == 1) {
+                    res.status(OK).send("Signed up Successfully");
+                    console.log(result.insertedId);
+                }
+                return client.close();
+            })
+        });
+    }
+});
+
+//get all enrolled users
+app.get('/v1/users',authMiddleware, function (req, res) {
+        client = new MongoClient(url, {
+            useNewUrlParser: true,
+            useUnifiedTopology: true
+        });
+        client.connect().then(() => {
+            client.db('Twilio').collection('SMS').find({}).toArray(function (err, result) {
+                if (err)
+                    res.status(INTERNAL_SERVER_ERROR).send(err);
+                else if (result == null)
+                    res.status(OK).send("No Users enrolled till now");
+                else if (result != null) {
+                    res.status(OK).send(result);
+                }
+                return client.close();
+            })
+        });
+    
+});
+
+//get all enrolled users
+app.delete('/v1/user', authMiddleware, function (req, res) {
+    var myquery = {
+        _id: req.body.subscriber_id
+    };
+    var newvalues = {
+        $set: {
+            "user.status": "Deleted"
+        }
+    };
+    client = new MongoClient(url, {
+        useNewUrlParser: true,
+        useUnifiedTopology: true
+    });
+    client.connect().then(() => {
+        client.db('Twilio').collection('SMS').updateOne(myquery, newvalues, {
+            upsert: true
+        }, function(err, result) {
+            if (err)
+                res.status(INTERNAL_SERVER_ERROR).send(err);
+            else if (result == null)
+                res.status(OK).send("No such User found");
+            else if (result != null) {
+                res.status(OK).send("User deleted Successfully");
+            }
+            return client.close();
+        })
+    });
+
+});
+
+
+
+
+const port = 1337;//1337;
 http.createServer(app).listen(port, () => {
     console.log('Express server listening on port ' + port);
 });
