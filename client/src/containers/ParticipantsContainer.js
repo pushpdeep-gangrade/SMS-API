@@ -29,7 +29,6 @@ export class ParticipantsContainer extends Component {
     }
 
     async populateParticipantsTable(){
-        let participantList = [];
 
         let response = await fetch('/v1/users', {
             method: 'GET',
@@ -42,16 +41,10 @@ export class ParticipantsContainer extends Component {
 
         let data = await response.json()
 
-        for(let i = 0; i < data.length; i++){
-            if(data[i].user.status !== "Deleted"){
-                participantList.push(data[i]);
-            }
-        }
-
-        console.log(participantList);
+        console.log(data);
 
         this.setState({
-            participantsList: participantList
+            participantsList: data
         })
 
     }
@@ -63,26 +56,24 @@ export class ParticipantsContainer extends Component {
         /*
             {
                 "_id": "+1234567890",
-                "enrolldate": "October 31st, 2020",
+                "enrolldate": 2020-10-31T18:11:21.680+00:00,
                 "user": {
-                    "status": "Enrolled"
-                    "disease": [{
-                        "name": "Headache",
-                        "severity": {
-                            "$numberInt": "2"
+                            "status": "Enrolled",
+                            "disease": [
+                            {
+                                "name": "Headache",
+                                "severity": 2
+                            },
+                            {
+                                "name": "Sadness",
+                                "severity": 3
+                            },
+                            {
+                                "name": "Fatigue",
+                                "severity": 1
+                            }
+                            ]
                         }
-                    }, {
-                        "name": "Sadness",
-                        "severity": {
-                            "$numberInt": "3"
-                        }
-                    }, {
-                        "name": "Fatigue",
-                        "severity": {
-                            "$numberInt": "1"
-                        }
-                    }]
-                }
             }
         */
 
@@ -102,13 +93,17 @@ export class ParticipantsContainer extends Component {
             body: JSON.stringify(body)
         });
 
-       this.populateParticipantsTable();
+       await this.populateParticipantsTable();
 
-       if(this.state.currentParticipant._id === deleteUser._id){
-           this.setState({
-               currentParticipant: null
-           })
+       if(this.state.currentParticipant !== null && deleteUser !== null &&
+        typeof this.state.currentParticipant !== "undefined" && typeof deleteUser !== "undefined"){
+        if(this.state.currentParticipant._id === deleteUser._id){
+            this.setState({
+                currentParticipant: null
+            })
+        }
        }
+      
     }
 
     handleSymptomsClick(event, position){
