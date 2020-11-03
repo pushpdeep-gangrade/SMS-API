@@ -380,24 +380,19 @@ app.delete('/v1/user', authMiddleware, function (req, res) {
     var myquery = {
         _id: req.body.subscriber_id
     };
-    var newvalues = {
-        $set: {
-            "user.status": "Deleted"
-        }
-    };
     client = new MongoClient(url, {
         useNewUrlParser: true,
         useUnifiedTopology: true
     });
     client.connect().then(() => {
-        client.db('Twilio').collection('SMS').updateOne(myquery, newvalues, {
-            upsert: true
-        }, function(err, result) {
+        client.db('Twilio').collection('SMS').deleteOne(myquery, function (err, result) {
+            console.log(result.deletedCount);
             if (err)
                 res.status(INTERNAL_SERVER_ERROR).send(err);
             else if (result == null)
                 res.status(OK).send("No such User found");
-            else if (result != null) {
+            else if (result.deletedCount == 1) {
+                console.log("User deleted Successfully");
                 res.status(OK).send("User deleted Successfully");
             }
             return client.close();
