@@ -14,10 +14,10 @@
    
 ## App Mockup <a name="mockup"></a>
 <strong>Mockup:</strong>
-  <br />
+  <br>
   <img src="https://github.com/pushpdeep-gangrade/SMS-API/blob/master/mockup_part1.png" width=800>
   <br />
-  <br />
+  <br>
   <img src="https://github.com/pushpdeep-gangrade/SMS-API/blob/master/mockup_part1.png" width=800>
   <br />
 
