@@ -13,8 +13,8 @@
 - Rockford Stoller
    
 ## App Mockup <a name="mockup"></a>
-<img src="https://github.com/pushpdeep-gangrade/SMS-API/blob/master/mockup_part1.png" width=800>
-<img src="https://github.com/pushpdeep-gangrade/SMS-API/blob/master/mockup_part1.png" width=800>
+<img src="https://github.com/pushpdeep-gangrade/SMS-API/blob/master/mockup_part1.png" width=1200>
+<img src="https://github.com/pushpdeep-gangrade/SMS-API/blob/master/mockup_part1.png" width=1200>
 
 ## Video Demo <a name="demo"></a>
 - App Demo:
