@@ -21,8 +21,8 @@
 
 ## Running the App
 1. Admin side:
-   - Run `npm install` in the `SMS-API` directory to install node.js libraries
-   - Set up twilio and the twilio CLI: `npm install twilio` and `npm install twilio-cli -g`
+   - The first time the app is run, start with installing npm libraries 
+    -  Run `npm install`, `npm install twilio` and `npm install twilio-cli -g`. Make sure to have root access for these commands to succeed.
    - Login to twilio using your SID and auth token: 
      - TODO add exact command 
      - Helpful tip: Create a local .env file in the `SMS-API` directory with your SID and auth token
