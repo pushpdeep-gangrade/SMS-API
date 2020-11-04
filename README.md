@@ -23,10 +23,10 @@
 1. Admin side:
    - The first time the app is run, start with installing npm libraries 
     -  Run `npm install`, `npm install twilio` and `npm install twilio-cli -g`. Make sure to have root access for these commands to succeed.
-   - Login to twilio using your SID and auth token: 
+   - Once the CLI is installed, login to twilio using your SID and auth token: 
      - TODO add exact command 
      - Helpful tip: Create a local .env file in the `SMS-API` directory with your SID and auth token
-   - Attach webhook by executing
+   - Lastly, attach webhook by executing
      `twilio phone-numbers:update "+12013792669" --sms-url="http://localhost:1337/sms`
 2. User side: Start a conversation by sending a message to [`+1-201-379-2669`](tel:12013792669)
    - TODO: specify user start text
@@ -34,7 +34,10 @@
 ### Update!!
 <strong>Mockup:</strong>
   <br />
-  <img src="https://github.com/pushpdeep-gangrade/Scoping-Project/blob/master/Mockup.png" width=800>
+  <img src="https://github.com/pushpdeep-gangrade/SMS-API/mockup_part1.png" width=800>
+  <br />
+  <br />
+  <img src="https://github.com/pushpdeep-gangrade/SMS-API/mockup_part2.png" width=800>
   <br />
 
 ## Video Demo <a name="demo"></a>
