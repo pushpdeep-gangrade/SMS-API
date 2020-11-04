@@ -13,7 +13,6 @@
 - Rockford Stoller
    
 ## App Mockup <a name="mockup"></a>
-### Update!!
 <strong>Mockup:</strong>
   <br />
   <img src="https://github.com/pushpdeep-gangrade/SMS-API/mockup_part2.png" width=800>
@@ -23,11 +22,9 @@
   <br />
 
 ## Video Demo <a name="demo"></a>
-### Update!!
 - App Demo:
 
 ## Project Wiki <a name="wiki"></a>
-### Intro- Update!!
 Project due date: 11/4/2020 at 10pm
 
 ### Running the App
