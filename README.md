@@ -16,10 +16,10 @@
 ### Update!!
 <strong>Mockup:</strong>
   <br />
-  <img src="https://github.com/pushpdeep-gangrade/SMS-API/mockup_part1.png" width=800>
-  <br />
-  <br />
   <img src="https://github.com/pushpdeep-gangrade/SMS-API/mockup_part2.png" width=800>
+  <br />
+  <br />
+  <img src="https://github.com/pushpdeep-gangrade/SMS-API/mockup_part1.png" width=800>
   <br />
 
 ## Video Demo <a name="demo"></a>
