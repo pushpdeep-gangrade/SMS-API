@@ -19,6 +19,24 @@
   <img src="https://github.com/pushpdeep-gangrade/Scoping-Project/blob/master/Mockup.png" width=800>
   <br />
 
+## Running the App
+1. Admin side:
+   - Run `npm install` in the `SMS-API` directory to install node.js libraries
+   - Set up twilio and the twilio CLI: `npm install twilio` and `npm install twilio-cli -g`
+   - Login to twilio using your SID and auth token: 
+     - TODO add exact command 
+     - Helpful tip: Create a local .env file in the `SMS-API` directory with your SID and auth token
+   - Attach webhook by executing
+     `twilio phone-numbers:update "+12013792669" --sms-url="http://localhost:1337/sms`
+2. User side: Start a conversation by sending a message to [`+1-201-379-2669`](tel:12013792669)
+   - TODO: specify user start text
+## App Mockup <a name="mockup"></a>
+### Update!!
+<strong>Mockup:</strong>
+  <br />
+  <img src="https://github.com/pushpdeep-gangrade/Scoping-Project/blob/master/Mockup.png" width=800>
+  <br />
+
 ## Video Demo <a name="demo"></a>
 ### Update!!
 - App Demo:
