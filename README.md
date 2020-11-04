@@ -11,25 +11,7 @@
 - Katy Mitchell
 - Valerie Ray
 - Rockford Stoller
-
-## App Mockup <a name="mockup"></a>
-### Update!!
-<strong>Mockup:</strong>
-  <br />
-  <img src="https://github.com/pushpdeep-gangrade/Scoping-Project/blob/master/Mockup.png" width=800>
-  <br />
-
-## Running the App
-1. Admin side:
-   - The first time the app is run, start with installing npm libraries 
-    -  Run `npm install`, `npm install twilio` and `npm install twilio-cli -g`. Make sure to have root access for these commands to succeed.
-   - Once the CLI is installed, login to twilio using your SID and auth token: 
-     - TODO add exact command 
-     - Helpful tip: Create a local .env file in the `SMS-API` directory with your SID and auth token
-   - Lastly, attach webhook by executing
-     `twilio phone-numbers:update "+12013792669" --sms-url="http://localhost:1337/sms`
-2. User side: Start a conversation by sending a message to [`+1-201-379-2669`](tel:12013792669)
-   - TODO: specify user start text
+   
 ## App Mockup <a name="mockup"></a>
 ### Update!!
 <strong>Mockup:</strong>
@@ -47,6 +29,18 @@
 ## Project Wiki <a name="wiki"></a>
 ### Intro- Update!!
 Project due date: 11/4/2020 at 10pm
+
+### Running the App
+1. Admin side:
+   - The first time the app is run, start with installing npm libraries 
+    -  Run `npm install`, `npm install twilio` and `npm install twilio-cli -g`. Make sure to have root access for these commands to succeed.
+   - Once the CLI is installed, login to twilio using your SID and auth token: 
+     - TODO add exact command 
+     - Helpful tip: Create a local .env file in the `SMS-API` directory with your SID and auth token
+   - Lastly, attach webhook by executing
+     `twilio phone-numbers:update "+12013792669" --sms-url="http://localhost:1337/sms`
+2. User side: Start a conversation by sending a message to [`+1-201-379-2669`](tel:12013792669)
+   - TODO: specify user start text
 
 ### App Features (requirements, cross off when done)
 
